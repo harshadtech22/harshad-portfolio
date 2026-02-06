@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Harshad Prasad | AI/ML Engineer</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --primary: #38bdf8;
+            --accent: #a855f7;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* --- Canvas Background for Neural Effect --- */
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+        }
+
+        /* --- Navigation --- */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(15, 23, 42, 0.8);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+            text-shadow: 0 0 10px var(--primary);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            line-height: 1.1;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .typewriter {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.5rem;
+            color: var(--accent);
+            min-height: 1.6em;
+        }
+
+        .hero-btn {
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.4s;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-btn:hover {
+            background: var(--primary);
+            color: var(--bg-color);
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        /* --- Sections General --- */
+        section {
+            padding: 100px 10%;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 50px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- About --- */
+        .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .about-text {
+            flex: 1;
+            min-width: 300px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255,255,255,0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        /* --- Skills (Cards with Glow) --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(56, 189, 248, 0.2);
+            border-color: var(--primary);
+        }
+
+        .skill-card i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--accent);
+        }
+
+        .skill-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .tag {
+            background: rgba(168, 85, 247, 0.2);
+            color: var(--accent);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        /* --- Timeline (Education & Certs) --- */
+        .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .timeline-item {
+            padding: 20px 30px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--primary);
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .timeline-item:hover {
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        .timeline-date {
+            font-family: 'Fira Code', monospace;
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(15, 23, 42, 0.9);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .social-links {
+            margin-bottom: 20px;
+        }
+
+        .social-links a {
+            color: var(--text-main);
+            font-size: 1.5rem;
+            margin: 0 15px;
+            transition: 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+            transform: scale(1.2);
+        }
+
+        .quote {
+            font-style: italic;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            nav { justify-content: center; }
+            .nav-links { display: none; } /* Simplified for mobile demo */
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="canvas-container"></canvas>
+
+    <nav>
+        <div class="logo">Harshad.AI</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#education">Education</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div data-aos="zoom-in" data-aos-duration="1000">
+            <p style="color: var(--primary); font-weight: 600; letter-spacing: 2px;">HI THERE, I'M</p>
+            <h1>Harshad <span>Prasad</span></h1>
+            <div class="typewriter" id="typewriter"></div>
+            <a href="#contact" class="hero-btn">Let's Connect <i class="fas fa-arrow-right"></i></a>
+        </div>
+    </section>
+
+    <section id="about">
+        <h2 class="section-title" data-aos="fade-up">About Me</h2>
+        <div class="about-content">
+            <div class="about-text" data-aos="fade-right">
+                <p>
+                    👋 I'm a second-year student in <strong>Artificial Intelligence & Machine Learning (AIML)</strong> at the University of Mumbai. 
+                    I am passionate about building intelligent systems, working with data, and exploring the intersection of software development and AI.
+                </p>
+                <br>
+                <p>
+                    Currently, I'm deepening my knowledge in <strong>Neural Networks</strong> and Deep Learning, building data visualization dashboards, and contributing to open-source Python projects.
+                </p>
+            </div>
+            <div style="flex:1; display:flex; gap:20px; flex-direction:column;" data-aos="fade-left">
+                <div class="skill-card" style="padding: 15px;">
+                    <h3><i class="fas fa-university"></i> University of Mumbai</h3>
+                    <p>B.E. in Computer Science (AI & ML)</p>
+                </div>
+                <div class="skill-card" style="padding: 15px;">
+                    <h3><i class="fas fa-code-branch"></i> Open Source</h3>
+                    <p>Active Contributor</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2 class="section-title" data-aos="fade-up">Tech Stack</h2>
+        <div class="skills-grid">
+            <div class="skill-card" data-aos="flip-left" data-aos-delay="100">
+                <i class="fab fa-python"></i>
+                <h3>Languages</h3>
+                <div class="tags">
+                    <span class="tag">Python (Advanced)</span>
+                    <span class="tag">C++</span>
+                    <span class="tag">SQL</span>
+                </div>
+            </div>
+
+            <div class="skill-card" data-aos="flip-left" data-aos-delay="200">
+                <i class="fas fa-brain"></i>
+                <h3>AI & Data Science</h3>
+                <div class="tags">
+                    <span class="tag">Pandas</span>
+                    <span class="tag">NumPy</span>
+                    <span class="tag">Scikit-learn</span>
+                    <span class="tag">Neural Networks</span>
+                </div>
+            </div>
+
+            <div class="skill-card" data-aos="flip-left" data-aos-delay="300">
+                <i class="fab fa-chrome"></i>
+                <h3>Web Development</h3>
+                <div class="tags">
+                    <span class="tag">Django</span>
+                    <span class="tag">HTML/CSS</span>
+                </div>
+            </div>
+
+            <div class="skill-card" data-aos="flip-left" data-aos-delay="400">
+                <i class="fas fa-tools"></i>
+                <h3>Tools</h3>
+                <div class="tags">
+                    <span class="tag">Git/GitHub</span>
+                    <span class="tag">VS Code</span>
+                    <span class="tag">Anaconda</span>
+                    <span class="tag">Jupyter</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="education">
+        <h2 class="section-title" data-aos="fade-up">Journey & Certifications</h2>
+        <div class="timeline">
+            <div class="timeline-item" data-aos="fade-up">
+                <div class="timeline-date">Jan 2025 - Present</div>
+                <h3>Saket College of Management</h3>
+                <p>Ongoing Academic Pursuit</p>
+            </div>
+            
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="timeline-date">Certification</div>
+                <h3>Python & Data Science</h3>
+                <p>Scaler & Sololearn</p>
+            </div>
+
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="timeline-date">Certification</div>
+                <h3>iBase Electrosoft LLP</h3>
+                <p>Technical Training</p>
+            </div>
+
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="timeline-date">Certification</div>
+                <h3>SkillEcted & Global Academy for IT</h3>
+                <p>Skill Development</p>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <h2 style="margin-bottom: 20px;">Get In Touch</h2>
+        <div class="social-links">
+            <a href="https://linkedin.com/in/harshad-prasad-a27791305" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="mailto:harshadprasad29@gmail.com"><i class="fas fa-envelope"></i></a>
+            <a href="https://github.com" target="_blank"><i class="fab fa-github"></i></a>
+        </div>
+        <p>"Building the future, one neuron at a time." 🤖✨</p>
+        <p style="margin-top: 20px; font-size: 0.8rem; color: #555;">© 2025 Harshad Prasad. Mumbai, India.</p>
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        // Initialize Animate On Scroll
+        AOS.init({
+            once: true,
+            offset: 100
+        });
+
+        // Typewriter Effect
+        const textElement = document.getElementById('typewriter');
+        const phrases = ['Aspiring AI/ML Engineer', 'Python Developer', 'CSE Student', 'Data Enthusiast'];
+        let phraseIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+
+        function type() {
+            const currentPhrase = phrases[phraseIndex];
+            
+            if (isDeleting) {
+                textElement.textContent = currentPhrase.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                textElement.textContent = currentPhrase.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentPhrase.length) {
+                isDeleting = true;
+                setTimeout(type, 2000); // Pause at end
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                phraseIndex = (phraseIndex + 1) % phrases.length;
+                setTimeout(type, 500);
+            } else {
+                setTimeout(type, isDeleting ? 50 : 100);
+            }
+        }
+        type();
+
+        // Neural Network Background Animation (Canvas)
+        const canvas = document.getElementById('canvas-container');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray;
+
+        // Create Particle
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 1; // Neuron size
+                this.speedX = (Math.random() * 1.5 - 0.75); // Speed
+                this.speedY = (Math.random() * 1.5 - 0.75);
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width || this.x < 0) this.speedX = -this.speedX;
+                if (this.y > canvas.height || this.y < 0) this.speedY = -this.speedY;
+            }
+            draw() {
+                ctx.fillStyle = '#38bdf8'; // Blue color
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() {
+            particlesArray = [];
+            let numberOfParticles = (canvas.height * canvas.width) / 9000;
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+                
+                // Draw connections (Neural Synapses)
+                for (let j = i; j < particlesArray.length; j++) {
+                    const dx = particlesArray[i].x - particlesArray[j].x;
+                    const dy = particlesArray[i].y - particlesArray[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 120) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(56, 189, 248, ${1 - distance/120})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particlesArray[i].x, particlesArray[i].y);
+                        ctx.lineTo(particlesArray[j].x, particlesArray[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            init();
+        });
+
+        init();
+        animate();
+    </script>
+</body>
+</html>
